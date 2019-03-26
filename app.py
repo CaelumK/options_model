@@ -11,6 +11,7 @@ import pandas as pd
 import plotly.plotly as py
 import plotly.graph_objs as go
 from dash.dependencies import Input, Output, State
+import app_securities as securities
 
 options = pd.DataFrame(columns = ['name','type','position','strike','price'])
 
@@ -130,12 +131,21 @@ app.layout = html.Div(children=[
                                                   type='number')
                                 ],className = 'six columns')
                             ], className='row'),
-                            
+                        
+                            html.Div([
+                                html.Label('Enter an implied volatility:', 
+                                                   style = {'color' : colors['text']}),
+                                dcc.Input(id = 'implied_volatility', 
+                                                  value = 0.2, 
+                                                  type='number')
+                            ])
             
                             ], className='six columns'),
                      
                     #%% Select active options
                     html.Div([
+                            html.Label('Select option portfolio:',
+                                       style = {'color' : colors['text']}),
                             dcc.Dropdown(
                                     id='dropdown',
                                     options=[],
@@ -145,9 +155,10 @@ app.layout = html.Div(children=[
                     ], className = 'row'
             ), 
             
-            html.Div(html.P('Select Figure Step Size'), 
+            html.Div(html.P('Select Figure Step Size:'), 
                      style = {'color' : colors['text']}),     
-                       
+            
+            
             # Step Size Slider
             dcc.Slider(id = 'step_size', 
                        min = 0.25, 
@@ -178,30 +189,41 @@ app.css.append_css({
                State('price','value'),
                State('underlying_price','value'),
                State('maturity', 'value'),
+               State('implied_volatility', 'value'),
                State('dropdown', 'options')])
 
-def update_available_options(click, name, call_put, long_short, K, P, underlying_price, maturity, existing_options):
+def update_available_options(click, name, call_put, long_short, K, P, underlying_price, maturity, iv, existing_options):
     option_name = name
     existing_options.append({'label': option_name+' '
                                       +str(long_short)+' '
-                                      +str(call_put)+' ' 
-                                      +str(K)+' '
-                                      +str(P)+' UP = '
+                                      +str(call_put)+' K= ' 
+                                      +str(K)+' P= '
+                                      +str(P)+' UP= '
                                       +str(underlying_price)+' T= '
-                                      +str(maturity), 
+                                      +str(maturity)+' iv= '
+                                      +str(iv), 
                              'value': option_name+' '
                                       +str(long_short)+' '
-                                      +str(call_put)+' ' 
-                                      +str(K)+' '
+                                      +str(call_put)+' K= ' 
+                                      +str(K)+' P= '
                                       +str(P)+' UP = '
                                       +str(underlying_price)+' T= '
-                                      +str(maturity)})
+                                      +str(maturity)+' iv= '
+                                      +str(iv)})
     return existing_options
 
 @app.callback(Output('plot', 'figure'),
-              [Input('dropdown', 'value')])
+              [Input('dropdown', 'value'),
+               Input('step_size', 'value')])
     
-def update_chart(active_options):
+def update_chart(active_options, step_size):
+    book = []
+    '''
+    for option in active_options:
+        props = option.split(' ')
+        book.append(securities.option(props[0],props[7],props[2],props[1],props[3],props[])
+    print(props)
+    '''
     return
 
 
