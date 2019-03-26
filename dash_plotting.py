@@ -9,6 +9,7 @@ from matplotlib import pyplot as plt
 from io import BytesIO
 import base64
 
+
 def fig_to_uri(in_fig, close_all=True, **save_args):
     # type: (plt.Figure) -> str
     """
@@ -87,6 +88,7 @@ def plot_time_independent(book, attributes = ['value'], step = 1):
         i+=1
         
     ax1.legend()
+    # saving plot as an image to be used in the app
     out_url = fig_to_uri(fig)
     return(out_url)
     

@@ -56,7 +56,7 @@ app.layout = html.Div(children=[
                                        style = {'color' : colors['text']}),
                             # option name           
                             dcc.Input(id = 'name', 
-                                      value = 'Example', 
+                                      value = 'TSLA', 
                                       type='text'),
                             # Update Available options          
                             html.Button('Add Option', id='button', n_clicks=0,
@@ -73,7 +73,7 @@ app.layout = html.Div(children=[
                                                 {'label': 'Put', 
                                                  'value': 'put'}
                                                 ],
-                                        value = 'call',
+                                        value = 'put',
                                         style = {'color' : colors['text']})
                                         ],className = 'six columns'),
                                 
@@ -98,7 +98,7 @@ app.layout = html.Div(children=[
                                         html.Label('Strike ($):', 
                                                    style = {'color' : colors['text']}),
                                         dcc.Input(id = 'strike', 
-                                                  value = 100, 
+                                                  value = 200, 
                                                   type='number')
                                         ],className = 'six columns'),
                                 
@@ -107,7 +107,7 @@ app.layout = html.Div(children=[
                                         html.Label('Premium ($):', 
                                                    style = {'color' : colors['text']}),
                                         dcc.Input(id = 'price', 
-                                                  value = 5, 
+                                                  value = 27.09, 
                                                   type='number')
                                 ],className = 'six columns')
                             ], className='row'),
@@ -119,7 +119,7 @@ app.layout = html.Div(children=[
                                         html.Label('Underlying Price ($):', 
                                                    style = {'color' : colors['text']}),
                                         dcc.Input(id = 'underlying_price', 
-                                                  value = 100, 
+                                                  value = 260.42, 
                                                   type='number')
                                         ],className = 'six columns'),
                             
@@ -128,7 +128,7 @@ app.layout = html.Div(children=[
                                         html.Label('Time to Maturity (Days):', 
                                                    style = {'color' : colors['text']}),
                                         dcc.Input(id = 'maturity', 
-                                                  value = 5, 
+                                                  value = 298, 
                                                   type='number')
                                 ],className = 'six columns')
                             ], className='row'),
@@ -137,7 +137,7 @@ app.layout = html.Div(children=[
                                 html.Label('Implied Volatility (Decimal):', 
                                                    style = {'color' : colors['text']}),
                                 dcc.Input(id = 'implied_volatility', 
-                                                  value = 0.2, 
+                                                  value = 0.68, 
                                                   type='number')
                             ])
             
