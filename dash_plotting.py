@@ -6,7 +6,6 @@ Created on Thu Jun 28 18:15:01 2018
 """
 
 from matplotlib import pyplot as plt
-import numpy as np
 from io import BytesIO
 import base64
 
@@ -18,7 +17,7 @@ def fig_to_uri(in_fig, close_all=True, **save_args):
     :return:
     """
     out_img = BytesIO()
-    in_fig.savefig(out_img, format='png', **save_args)
+    in_fig.savefig(out_img, format='png', dpi = 140, **save_args)
     if close_all:
         in_fig.clf()
         plt.close('all')

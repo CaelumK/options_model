@@ -172,7 +172,10 @@ app.layout = html.Div(children=[
                      style = {'color' : colors['text']}),
            
             # Table 
-            html.Img(id = 'plot', src='')
+            html.Div([
+                    html.Img(id = 'plot', src='')
+                    ],
+                    style={'width':'100%', 'margin':25, 'textAlign': 'center'})
             
         ])
 ], style = {'backgroundColor' : colors['background'], 'marginBottom': 0, 'marginTop': 0})
