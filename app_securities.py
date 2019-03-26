@@ -118,7 +118,7 @@ class option:
         self.contracts = number_of_contracts * self.position
         self.strike = strike
         self.rate = interest_rate
-        self.dividend = None
+        self.dividend = 0
         self.trading_days = trading_days
         self.price_paid = price_paid*self.contracts + commission*abs(self.contracts) + fixed_commission
         

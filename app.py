@@ -12,6 +12,7 @@ import plotly.plotly as py
 import plotly.graph_objs as go
 from dash.dependencies import Input, Output, State
 import app_securities as securities
+import dash_plotting as dp
 
 options = pd.DataFrame(columns = ['name','type','position','strike','price'])
 
@@ -94,7 +95,7 @@ app.layout = html.Div(children=[
                             html.Div([
                                 # Strike
                                 html.Div([
-                                        html.Label('Enter the option strike price:', 
+                                        html.Label('Strike ($):', 
                                                    style = {'color' : colors['text']}),
                                         dcc.Input(id = 'strike', 
                                                   value = 100, 
@@ -103,7 +104,7 @@ app.layout = html.Div(children=[
                                 
                                 # Premium
                                 html.Div([
-                                        html.Label('Enter the option premium:', 
+                                        html.Label('Premium ($):', 
                                                    style = {'color' : colors['text']}),
                                         dcc.Input(id = 'price', 
                                                   value = 5, 
@@ -115,7 +116,7 @@ app.layout = html.Div(children=[
                             # Current price of the underlying
                             html.Div([
                                 html.Div([
-                                        html.Label('Enter the current price of the underlying:', 
+                                        html.Label('Underlying Price ($):', 
                                                    style = {'color' : colors['text']}),
                                         dcc.Input(id = 'underlying_price', 
                                                   value = 100, 
@@ -124,7 +125,7 @@ app.layout = html.Div(children=[
                             
                                 # Time to maturity 
                                 html.Div([
-                                        html.Label('Enter the time to matrurity in days:', 
+                                        html.Label('Time to Maturity (Days):', 
                                                    style = {'color' : colors['text']}),
                                         dcc.Input(id = 'maturity', 
                                                   value = 5, 
@@ -133,7 +134,7 @@ app.layout = html.Div(children=[
                             ], className='row'),
                         
                             html.Div([
-                                html.Label('Enter an implied volatility:', 
+                                html.Label('Implied Volatility (Decimal):', 
                                                    style = {'color' : colors['text']}),
                                 dcc.Input(id = 'implied_volatility', 
                                                   value = 0.2, 
@@ -171,7 +172,7 @@ app.layout = html.Div(children=[
                      style = {'color' : colors['text']}),
            
             # Table 
-            dcc.Graph(id = 'plot')
+            html.Img(id = 'plot', src='')
             
         ])
 ], style = {'backgroundColor' : colors['background'], 'marginBottom': 0, 'marginTop': 0})
@@ -206,25 +207,35 @@ def update_available_options(click, name, call_put, long_short, K, P, underlying
                                       +str(long_short)+' '
                                       +str(call_put)+' K= ' 
                                       +str(K)+' P= '
-                                      +str(P)+' UP = '
+                                      +str(P)+' UP= '
                                       +str(underlying_price)+' T= '
                                       +str(maturity)+' iv= '
                                       +str(iv)})
     return existing_options
 
-@app.callback(Output('plot', 'figure'),
+@app.callback(Output('plot', 'src'),
               [Input('dropdown', 'value'),
                Input('step_size', 'value')])
     
 def update_chart(active_options, step_size):
     book = []
-    '''
+    
     for option in active_options:
         props = option.split(' ')
-        book.append(securities.option(props[0],props[7],props[2],props[1],props[3],props[])
-    print(props)
-    '''
-    return
+
+        book.append(securities.option(props[0],
+                                      float(props[8]),
+                                      props[2],
+                                      props[1],
+                                      float(props[4]),
+                                      float(props[12]),
+                                      float(props[10]), 
+                                      365,
+                                      float(props[6]),1))
+    
+    out_fig = dp.plot_time_independent(book, step = step_size)
+    
+    return out_fig
 
 
 @app.callback(
